@@ -1,4 +1,4 @@
-package com.yucan.viewpagetitle
+package com.cam.viewpagetitle
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

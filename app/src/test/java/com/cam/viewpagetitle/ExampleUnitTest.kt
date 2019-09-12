@@ -1,4 +1,4 @@
-package com.yucan.viewpagetitle
+package com.cam.viewpagetitle
 
 import org.junit.Test
 

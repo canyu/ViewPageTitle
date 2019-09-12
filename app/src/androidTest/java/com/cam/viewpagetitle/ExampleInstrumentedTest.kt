@@ -1,4 +1,4 @@
-package com.yucan.viewpagetitle
+package com.cam.viewpagetitle
 
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.ext.junit.runners.AndroidJUnit4
