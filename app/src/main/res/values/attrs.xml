@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="TopView">
+        <attr name="topTitle" format="string|reference" />
+        <attr name="topSelectedColor" format="color|integer" />
+        <attr name="topUnselectedColor" format="color|integer" />
+    </declare-styleable>
+</resources>
