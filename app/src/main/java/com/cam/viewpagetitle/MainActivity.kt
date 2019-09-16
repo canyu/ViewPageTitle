@@ -32,7 +32,12 @@ class MainActivity : AppCompatActivity() {
         mTopViews.add(tvFind)
         mTopViews.add(tvMy)
 
+        var measureTitleWidth = 0
         for(topView  in mTopViews){
+            measureTitleWidth = measureTitleWidth.coerceAtLeast(topView.getMeasureTitleWidth())
+        }
+        for(topView  in mTopViews){
+            topView.updateMeasureWidth(measureTitleWidth)
             topView.setOnClickListener(onClick)
         }
         viewPager.offscreenPageLimit = sTabTitles.size - 1

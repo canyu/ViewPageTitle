@@ -5,12 +5,11 @@ import android.util.AttributeSet
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.MeasureSpec.UNSPECIFIED
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.cam.viewpagetitle.R
 import com.cam.viewpagetitle.utils.ColorUtils
-import kotlin.math.pow
-import kotlin.math.roundToInt
 
 /**
  * Created by yuCan on 2019/9/11
@@ -23,6 +22,9 @@ class TopView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
 
     private val mSelectedColor:Int
     private val mUnselectedColor:Int
+
+    private var mMeasureTitleWidth:Int = 0
+
     init{
         val v: View = LayoutInflater.from(context).inflate(R.layout.view_top_view, this)
         mTvTitle = v.findViewById(R.id.tvTitle)
@@ -34,13 +36,30 @@ class TopView @JvmOverloads constructor(context: Context, attrs: AttributeSet? =
         a.recycle()
     }
 
+    fun getMeasureTitleWidth():Int{
+        if(mMeasureTitleWidth != 0){
+            return mMeasureTitleWidth
+        }
+        mTvTitle.measure(UNSPECIFIED,UNSPECIFIED)
+        mMeasureTitleWidth = mTvTitle.measuredWidth
+        return mMeasureTitleWidth
+    }
+
+    fun updateMeasureWidth(width:Int){
+        mMeasureTitleWidth = width
+    }
+
     private fun updateHeight():Float{
         (mScale <= 0f && measuredHeight > 0).let {
-            mTvTitle.pivotX = mTvTitle.measuredWidth / 2f
+            var measureTitleWidth = mTvTitle.measuredWidth
+            mTvTitle.pivotX = measureTitleWidth / 2f
+            (mMeasureTitleWidth != 0).let{measureTitleWidth = mMeasureTitleWidth}
             mTvTitle.pivotY = (measuredHeight - mTvTitle.measuredHeight) / 2f
             val heightScale = (measuredHeight - mTvTitle.measuredHeight) * 1f / mTvTitle.measuredHeight
-            val widthScale = (measuredWidth - mTvTitle.measuredWidth) * 1f / mTvTitle.measuredWidth
-            Log.d(TAG, "(updateHeight):heightScale: $heightScale, widthScale: $widthScale ")
+            val widthScale = (measuredWidth - measureTitleWidth) * 1f / measureTitleWidth
+            Log.d(TAG, "(updateHeight):heightScale: $heightScale, widthScale: $widthScale ," +
+                    "mTvTitle.measuredHeight:${mTvTitle.measuredHeight},mTvTitle.measuredWidth: ${mTvTitle.measuredWidth}," +
+                    " mMeasureTitleWidth:$mMeasureTitleWidth ")
             mScale = heightScale.coerceAtMost(widthScale)
         }
         return mScale
